@@ -1,21 +1,20 @@
 package com.best2team.facebook_clone_be.controller;
 
-import com.best2team.facebook_clone_be.dto.dto.SignupRequestDto;
-import com.best2team.facebook_clone_be.dto.dto.UserResponseDto;
+import com.best2team.facebook_clone_be.dto.SignupRequestDto;
+import com.best2team.facebook_clone_be.dto.UserResponseDto;
 
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 public class UserRestController {
     private final UserService userService;
-
     @Autowired
     public UserRestController(UserService userService){
         this.userService = userService;
@@ -27,11 +26,16 @@ public class UserRestController {
         return userService.signup(signupRequestDto);
     }
 
-
     @PostMapping("/api/user/islogin")
-    public UserResponseDto userIsLogin(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public UserResponseDto isLogin(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return new UserResponseDto(userDetails);
     }
+
+    @PostMapping("/api/user/image")
+    public void registImage(@RequestParam("image") MultipartFile file, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+        userService.registImage(file, userDetails);
+    }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public Object nullex(IllegalArgumentException e) {

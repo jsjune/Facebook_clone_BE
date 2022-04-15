@@ -25,7 +25,7 @@ public class Post {
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "listId")
+    @JoinColumn(name = "likeId")
     private List<Like> likeList = new ArrayList<>();
 
     @Column(nullable = false)
