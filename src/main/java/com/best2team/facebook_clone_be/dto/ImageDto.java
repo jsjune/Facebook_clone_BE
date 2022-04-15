@@ -9,7 +9,7 @@ public class ImageDto {
     private String imageUrl;
     private String fileName;
 
-    public ImageDto(String imageUrl, String fileName){
+    public ImageDto(String imageUrl, String fileName) {
         this.imageUrl = imageUrl;
         this.fileName = fileName;
     }

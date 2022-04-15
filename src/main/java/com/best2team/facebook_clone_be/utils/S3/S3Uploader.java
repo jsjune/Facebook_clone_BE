@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.best2team.facebook_clone_be.dto.ImageDto;
+import com.best2team.facebook_clone_be.repository.PostImageRepository;
 import com.best2team.facebook_clone_be.repository.UserImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
+    private final PostImageRepository postImageRepository;
     private final UserImageRepository userImageRepository;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -78,5 +80,12 @@ public class S3Uploader {
         }
 
         return Optional.empty();
+    }
+
+    private void deleteFile(Long imageId){
+        String fileName = postImageRepository.findById(imageId).orElseThrow(IllegalArgumentException::new).getFileName();
+
+        DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
+        amazonS3Client.deleteObject(request);
     }
 }

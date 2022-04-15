@@ -57,11 +57,11 @@ public class Validator {
 //    }
 //
 //
-//    public void sameContent(boolean board, String s) {
-//        if(board){
-//            throw new IllegalArgumentException(s);
-//        }
-//    }
+    public void sameContent(boolean board, String s) {
+        if(board){
+            throw new IllegalArgumentException(s);
+        }
+    }
 //
 //    public void sameComment(CommentRequestDto commentRequestDto, Comment comment) {
 //        if(comment.getComment().equals(commentRequestDto.getComment())){

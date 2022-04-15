@@ -32,6 +32,10 @@ public class Post {
     private String content;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private Long userId;
 
+    public Post(String content, Long userId) {
+        this.content=content;
+        this.userId=userId;
+    }
 }

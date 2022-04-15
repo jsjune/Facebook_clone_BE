@@ -1,5 +1,6 @@
 package com.best2team.facebook_clone_be.model;
 
+import com.best2team.facebook_clone_be.dto.ImageDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +20,12 @@ public class PostImage {
 
     @Column(nullable = false, unique = true)
     private String postImageUrl;
+
+    @Column(nullable = false)
+    private String fileName;
+
+    public PostImage(ImageDto imageDto) {
+        this.postImageUrl=imageDto.getImageUrl();
+        this.fileName = imageDto.getFileName();
+    }
 }
