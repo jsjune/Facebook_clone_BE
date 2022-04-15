@@ -38,4 +38,8 @@ public class Post {
         this.content=content;
         this.userId=userId;
     }
+
+    public void update(PostImage postImage){
+        this.postImage = postImage;
+    }
 }
