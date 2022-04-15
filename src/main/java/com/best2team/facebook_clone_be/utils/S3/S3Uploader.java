@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.best2team.facebook_clone_be.dto.ImageDto;
 import com.best2team.facebook_clone_be.repository.PostImageRepository;
+import com.best2team.facebook_clone_be.repository.UserImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,7 @@ public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
     private final PostImageRepository postImageRepository;
+    private final UserImageRepository userImageRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
@@ -36,12 +38,20 @@ public class S3Uploader {
         return upload(uploadFile, dirName);
     }
 
+    //S3 삭제
+    public void deleteUserImage(Long imageId){
+        String fileName = userImageRepository.findById(imageId).orElseThrow(IllegalArgumentException::new).getFileName();
+
+        DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
+        amazonS3Client.deleteObject(request);
+    }
+
     // S3로 파일 업로드하기
     private ImageDto upload(File uploadFile, String dirName) {
         String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
         removeNewFile(uploadFile);
-        return new ImageDto(uploadImageUrl,fileName);
+        return new ImageDto(uploadImageUrl, fileName);
     }
 
     // S3로 업로드

@@ -10,5 +10,4 @@ public class MsgResponseDto {
 
     public MsgResponseDto(String msg) {
         this.msg=msg;
-    }
 }

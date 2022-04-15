@@ -46,4 +46,7 @@ public class User {
         this.password = requestDto.getPassword();
     }
 
+    public void update(UserImage userImage) {
+        this.userImage = userImage;
+    }
 }
