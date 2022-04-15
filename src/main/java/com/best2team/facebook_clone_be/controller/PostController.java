@@ -27,4 +27,5 @@ public class PostController {
 //    public PostResponseDto postList(@PathVariable int page) {
 //
 //    }
+
 }
