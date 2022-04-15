@@ -1,6 +1,6 @@
 package com.best2team.facebook_clone_be.model;
 
-import com.best2team.facebook_clone_be.dto.dto.SignupRequestDto;
+import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -46,4 +46,7 @@ public class User {
         this.password = requestDto.getPassword();
     }
 
+    public void update(UserImage userImage) {
+        this.userImage = userImage;
+    }
 }

@@ -1,5 +1,6 @@
 package com.best2team.facebook_clone_be.model;
 
+import com.best2team.facebook_clone_be.dto.ImageDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -15,4 +16,12 @@ public class UserImage {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    @Column(nullable = false)
+    private String fileName;
+
+    public UserImage(ImageDto imageDto){
+        this.imageUrl = imageDto.getImageUrl();
+        this.fileName = imageDto.getFileName();
+    }
 }
