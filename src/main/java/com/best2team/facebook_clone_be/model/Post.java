@@ -34,4 +34,8 @@ public class Post {
     @Column(nullable = false, unique = true)
     private String username;
 
+    public Post(String content, String username) {
+        this.content = content;
+        this.username = username;
+    }
 }
