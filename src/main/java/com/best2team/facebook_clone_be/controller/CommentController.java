@@ -1,10 +1,7 @@
 package com.best2team.facebook_clone_be.controller;
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
-import com.best2team.facebook_clone_be.dto.dto.CommentListResponserDto;
 import com.best2team.facebook_clone_be.dto.dto.CommentResponseDto;
-import com.best2team.facebook_clone_be.model.Comment;
-import com.best2team.facebook_clone_be.repository.CommentRepository;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +25,9 @@ public class CommentController {
        return commentService.createComment(requestDto,userDetails);
     }
 
-    // 댓글 조회 ( 전체)
-//    @GetMapping("/api/comment")
-//    public List<CommentListResponserDto> getComment(@RequestBody CommentRequestDto requestDto){
-//        return commentService.getComment(requestDto);
-//    }
-
-    @GetMapping("/api/comment")
-    public List<Comment> getCommentList(@RequestBody CommentRequestDto requestDto){
-        return commentService.getCommentList(requestDto);
+    @GetMapping("/api/comment/{postid}")
+    public List<CommentResponseDto> getCommentList(@PathVariable long postid){
+        return commentService.getCommentList(postid);
     }
 
     // 댓글 수정하기

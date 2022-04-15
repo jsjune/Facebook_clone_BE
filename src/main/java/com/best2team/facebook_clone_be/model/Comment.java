@@ -1,6 +1,7 @@
 package com.best2team.facebook_clone_be.model;
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
+import com.best2team.facebook_clone_be.utils.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "tbl_comment")
-public class Comment {
+public class Comment extends Timestamped {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
     private Long commentId;

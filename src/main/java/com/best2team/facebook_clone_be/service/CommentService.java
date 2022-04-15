@@ -2,11 +2,8 @@ package com.best2team.facebook_clone_be.service;
 
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
-import com.best2team.facebook_clone_be.dto.dto.CommentListResponserDto;
 import com.best2team.facebook_clone_be.dto.dto.CommentResponseDto;
-import com.best2team.facebook_clone_be.dto.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.model.Comment;
-import com.best2team.facebook_clone_be.model.Post;
 import com.best2team.facebook_clone_be.model.User;
 import com.best2team.facebook_clone_be.repository.CommentRepository;
 import com.best2team.facebook_clone_be.repository.PostRepository;
@@ -16,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +27,7 @@ public class CommentService {
     private final UserRepository userRepository;
     
     //댓글 작성
+    @Transactional
     public String createComment(CommentRequestDto requestDto,  UserDetailsImpl userDetails) {
 
         String msg = "댓글이 등록 되었습니다.";
@@ -46,29 +45,6 @@ public class CommentService {
 
         return msg;
     }
-
-    //댓글 리스트 조회
-//    public List<CommentListResponserDto> getComment(CommentRequestDto requestDto) {
-//
-//        List<CommentListResponserDto> commentListResponserDtos = new ArrayList<>();
-//
-//        Post post = postRepository.findById(requestDto.getPostId()).orElseThrow(
-//                ()-> new IllegalArgumentException()
-//        );
-//        for(Comment comment : post.getCommentList()){
-//            Long postId = comment.getPostId();
-//            String content = comment.getContent();
-//            User user = userRepository.findById(comment.getUserId()).orElseThrow(
-//                    () -> new IllegalArgumentException()
-//            );
-//            System.out.println(user.getUserName());
-//
-//            CommentResponseDto commentResponseDto = new CommentResponseDto(postId,content,user);
-//
-//            commentListResponserDtos.add(commentResponseDto);
-//        }
-//        return new CommentResponseDto();
-//    }
 
 
     //댓글 수정
@@ -105,7 +81,23 @@ public class CommentService {
         return msg;
     }
 
+    @Transactional
+    public List<CommentResponseDto> getCommentList(long postid) {
+        List<Comment> commentList = commentRepository.findAllByPostId(postid);
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
-    public List<Comment> getCommentList(CommentRequestDto requestDto) {
+        for(Comment comment:commentList){
+            Long postId = comment.getPostId();
+            String content = comment.getContent();
+            User user = userRepository.findById(comment.getUserId()).orElseThrow(
+                    ()->new IllegalArgumentException()
+            );
+            String userName = user.getUserName();
+            Long userId = user.getUserId();
+            LocalDateTime createdAt = comment.getCreatedAt();
+            CommentResponseDto commentResponseDto = new CommentResponseDto(postId,content,userName,userId,createdAt);
+            commentResponseDtoList.add(commentResponseDto);
+        }
+        return commentResponseDtoList;
     }
 }

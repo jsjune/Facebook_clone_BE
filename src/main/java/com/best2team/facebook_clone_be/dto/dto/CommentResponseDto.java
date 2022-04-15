@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -15,12 +16,14 @@ public class CommentResponseDto {
     private String content;
     private String userName;
     private Long userId;
-    private Date createAt;
+    private LocalDateTime createAt;
 
-    public CommentResponseDto(Long postId, String content, User user) {
+
+    public CommentResponseDto(Long postId, String content, String userName, Long userId, LocalDateTime createAt) {
         this.postId = postId;
         this.content = content;
-        this.userName = user.getUserName();
-        this.userId = getUserId();
+        this.userName = userName;
+        this.userId = userId;
+        this.createAt = createAt;
     }
 }
