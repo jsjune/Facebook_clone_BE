@@ -20,18 +20,17 @@ public class Post {
     @JoinColumn(name = "postImageId")
     private PostImage postImage;
 
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "userId")
+    private User user;
+
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false, unique = true)
-    private Long userId;
-
-    public Post(String content, Long userId) {
+    public Post(String content, User user, PostImage postImage) {
         this.content=content;
-        this.userId=userId;
-    }
-
-    public void update(PostImage postImage){
+        this.user = user;
         this.postImage = postImage;
     }
+
 }

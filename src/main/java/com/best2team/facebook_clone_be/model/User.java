@@ -41,4 +41,5 @@ public class User {
     public void update(UserImage userImage) {
         this.userImage = userImage;
     }
+
 }
