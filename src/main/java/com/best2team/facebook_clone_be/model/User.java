@@ -20,11 +20,11 @@ public class User {
     @JoinColumn(name = "userImageId")
     private UserImage userImage;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "postId")
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "commentId")
     private List<Comment> commentList = new ArrayList<>();
 

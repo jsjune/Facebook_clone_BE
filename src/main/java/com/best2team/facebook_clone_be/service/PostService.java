@@ -25,21 +25,20 @@ public class PostService {
     private final PostImageRepository imageRepository;
     private final Validator validator;
 
-    @Transactional
+//    @Transactional
     public MsgResponseDto writePost(UserDetailsImpl userDetails, MultipartFile multipartFile, String content) throws IOException {
 
-        validator.sameContent(content==null,"내용을 입력하세요");
-        Post post = new Post(content, userDetails.getUser().getUserId());
-
-        PostImage postImage = new PostImage(s3Uploader.upload(multipartFile, "static"));
-
-        Post result = postRepository.save(post);
-        System.out.println("왔니???");
-        result.update(imageRepository.save(postImage));
-        System.out.println("여기도?????");
-        String msg="게시글 작성이 성공되었습니다.";
-        return new MsgResponseDto(msg);
-
-
+        try {
+            validator.sameContent(content == null, "내용을 입력하세요");
+            Post post = new Post(content, userDetails.getUser().getUserId());
+            PostImage postImage = new PostImage(s3Uploader.upload(multipartFile, "static"));
+            Post result = postRepository.save(post);
+            result.update(imageRepository.save(postImage));
+            String msg = "게시글 작성이 성공되었습니다.";
+            return new MsgResponseDto(msg);
+        } catch (Exception e) {
+            String msg = "작성 XXX";
+            return new MsgResponseDto(msg);
+        }
     }
 }

@@ -20,11 +20,11 @@ public class Post {
     @JoinColumn(name = "postImageId")
     private PostImage postImage;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "commentId")
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "likeId")
     private List<Like> likeList = new ArrayList<>();
 
