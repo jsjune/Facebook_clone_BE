@@ -1,15 +1,11 @@
 package com.best2team.facebook_clone_be.utils;
 
 
-import com.best2team.facebook_clone_be.dto.dto.SignupRequestDto;
+import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
@@ -61,11 +57,11 @@ public class Validator {
 //    }
 //
 //
-//    public void sameContent(boolean board, String s) {
-//        if(board){
-//            throw new IllegalArgumentException(s);
-//        }
-//    }
+    public void sameContent(boolean board, String s) {
+        if(board){
+            throw new IllegalArgumentException(s);
+        }
+    }
 //
 //    public void sameComment(CommentRequestDto commentRequestDto, Comment comment) {
 //        if(comment.getComment().equals(commentRequestDto.getComment())){

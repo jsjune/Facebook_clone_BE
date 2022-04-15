@@ -1,7 +1,7 @@
 package com.best2team.facebook_clone_be.service;
 
 
-import com.best2team.facebook_clone_be.dto.dto.SignupRequestDto;
+import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.model.User;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import com.best2team.facebook_clone_be.utils.Validator;

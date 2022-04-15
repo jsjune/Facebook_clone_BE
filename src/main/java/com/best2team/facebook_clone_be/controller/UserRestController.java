@@ -1,7 +1,7 @@
 package com.best2team.facebook_clone_be.controller;
 
-import com.best2team.facebook_clone_be.dto.dto.SignupRequestDto;
-import com.best2team.facebook_clone_be.dto.dto.UserResponseDto;
+import com.best2team.facebook_clone_be.dto.SignupRequestDto;
+import com.best2team.facebook_clone_be.dto.UserResponseDto;
 
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.UserService;
