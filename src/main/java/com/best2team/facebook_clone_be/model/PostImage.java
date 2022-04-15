@@ -16,9 +16,6 @@ public class PostImage {
     private Long postImageId;
 
     @Column(nullable = false, unique = true)
-    private String userEmail;
-
-    @Column(nullable = false, unique = true)
     private String postImageUrl;
 
     @Column(nullable = false)

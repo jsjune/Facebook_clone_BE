@@ -1,4 +1,4 @@
-package com.best2team.facebook_clone_be.dto.dto;
+package com.best2team.facebook_clone_be.dto;
 
 import com.best2team.facebook_clone_be.model.User;
 import lombok.Getter;

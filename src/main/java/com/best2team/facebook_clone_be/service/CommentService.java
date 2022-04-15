@@ -2,8 +2,9 @@ package com.best2team.facebook_clone_be.service;
 
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
-import com.best2team.facebook_clone_be.dto.dto.CommentResponseDto;
+import com.best2team.facebook_clone_be.dto.CommentResponseDto;
 import com.best2team.facebook_clone_be.model.Comment;
+import com.best2team.facebook_clone_be.model.Post;
 import com.best2team.facebook_clone_be.model.User;
 import com.best2team.facebook_clone_be.repository.CommentRepository;
 import com.best2team.facebook_clone_be.repository.PostRepository;
@@ -31,16 +32,16 @@ public class CommentService {
     public String createComment(CommentRequestDto requestDto,  UserDetailsImpl userDetails) {
 
         String msg = "댓글이 등록 되었습니다.";
-        Long postId = requestDto.getPostId();
+        Post post = postRepository.findById(requestDto.getPostId()).orElseThrow(IllegalArgumentException::new);
 
-        if(!postRepository.existsById(postId)){
+        if(!postRepository.existsById(requestDto.getPostId())){
             msg = "댓글 작성에 실패하였습니다.";
             throw new IllegalArgumentException(msg);
         }
 
         String content = requestDto.getComment();
 
-        Comment comment = new Comment(postId, content, userDetails.getUser());
+        Comment comment = new Comment(content,userDetails.getUser().getUserId(), post);
         commentRepository.save(comment);
 
         return msg;
@@ -82,12 +83,12 @@ public class CommentService {
     }
 
     @Transactional
-    public List<CommentResponseDto> getCommentList(long postid) {
-        List<Comment> commentList = commentRepository.findAllByPostId(postid);
+    public List<CommentResponseDto> getCommentList(Long postid) {
+        List<Comment> commentList = commentRepository.findAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
         for(Comment comment:commentList){
-            Long postId = comment.getPostId();
+            Long postId = comment.getPost().getPostId();
             String content = comment.getContent();
             User user = userRepository.findById(comment.getUserId()).orElseThrow(
                     ()->new IllegalArgumentException()
