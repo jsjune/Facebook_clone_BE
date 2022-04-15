@@ -27,6 +27,7 @@ public class Comment extends Timestamped {
 
 
 
+
     public Comment(Long postId, String content, User user) {
         this.content = content;
         this.userId = user.getUserId();

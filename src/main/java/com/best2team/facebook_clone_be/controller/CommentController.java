@@ -1,7 +1,7 @@
 package com.best2team.facebook_clone_be.controller;
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
-import com.best2team.facebook_clone_be.dto.dto.CommentResponseDto;
+import com.best2team.facebook_clone_be.dto.CommentResponseDto;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,8 @@ public class CommentController {
 
        return commentService.createComment(requestDto,userDetails);
     }
-
+    
+    //댓글 리스트 조회
     @GetMapping("/api/comment/{postid}")
     public List<CommentResponseDto> getCommentList(@PathVariable long postid){
         return commentService.getCommentList(postid);

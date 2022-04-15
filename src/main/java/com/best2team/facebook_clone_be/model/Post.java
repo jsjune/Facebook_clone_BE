@@ -20,14 +20,6 @@ public class Post {
     @JoinColumn(name = "postImageId")
     private PostImage postImage;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "commentId")
-    private List<Comment> commentList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "likeId")
-    private List<Like> likeList = new ArrayList<>();
-
     @Column(nullable = false)
     private String content;
 

@@ -2,7 +2,7 @@ package com.best2team.facebook_clone_be.service;
 
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
-import com.best2team.facebook_clone_be.dto.dto.CommentResponseDto;
+import com.best2team.facebook_clone_be.dto.CommentResponseDto;
 import com.best2team.facebook_clone_be.model.Comment;
 import com.best2team.facebook_clone_be.model.User;
 import com.best2team.facebook_clone_be.repository.CommentRepository;

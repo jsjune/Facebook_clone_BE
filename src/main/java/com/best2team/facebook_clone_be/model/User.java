@@ -20,14 +20,6 @@ public class User {
     @JoinColumn(name = "userImageId")
     private UserImage userImage;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "postId")
-    private List<Post> postList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "commentId")
-    private List<Comment> commentList = new ArrayList<>();
-
     @Column(nullable = false, unique = true)
     private String userEmail;
 
