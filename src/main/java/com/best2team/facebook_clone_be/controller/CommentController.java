@@ -1,7 +1,7 @@
 package com.best2team.facebook_clone_be.controller;
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
-import com.best2team.facebook_clone_be.dto.dto.CommentResponseDto;
+import com.best2team.facebook_clone_be.dto.CommentResponseDto;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -25,20 +25,20 @@ public class CommentController {
        return commentService.createComment(requestDto,userDetails);
     }
 
-    @GetMapping("/api/comment/{postid}")
-    public List<CommentResponseDto> getCommentList(@PathVariable long postid){
+    @GetMapping("/api/comment/{postid}/{pageno}")
+    public List<CommentResponseDto> getCommentList(@PathVariable Long postid, @PathVariable Long pageno){
         return commentService.getCommentList(postid);
     }
 
     // 댓글 수정하기
     @PutMapping("/api/comment/{commentid}")
-    public String updateComment(@PathVariable long commentid, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String updateComment(@PathVariable Long commentid, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.updateComment(commentid,requestDto,userDetails);
     }
 
     // 댓글 삭제하기
     @DeleteMapping("/api/comment/{commentid}")
-    public String deleteComment(@PathVariable long commentid, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String deleteComment(@PathVariable Long commentid, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.deleteComment(commentid,userDetails);
     }
 }
