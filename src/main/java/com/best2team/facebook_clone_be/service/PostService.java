@@ -53,11 +53,11 @@ public class PostService {
     }
 
 
-    public PostResponseDto showAllPost(int postno,UserDetailsImpl userDetails) {
-        List<Post> postList = postRepository.findAllByUser(userDetails.getUser());
+    public PostResponseDto showAllPost(int postno) {
+        List<Post> postList = postRepository.findAll();
         List<PostListDto> postListDto = new ArrayList<>();
         for (Post post : postList) {
-            Long userId = userDetails.getUser().getUserId();
+            Long userId = post.getUser().getUserId();
             Long postId = post.getPostId();
             String content = post.getContent();
             Long likeCnt = likeRepository.countAllByPostId(postId);
@@ -65,11 +65,11 @@ public class PostService {
             Long commentCnt = Long.valueOf(commentList.size());
             LocalDateTime createAt = post.getCreatedAt();
             String postImageUrl = post.getPostImage().getPostImageUrl();
-            boolean like= likeRepository.findByPostIdAndUserId(post.getPostId(),userDetails.getUser().getUserId()).isPresent();
+            boolean like= likeRepository.findByPostIdAndUserId(post.getPostId(),post.getUser().getUserId()).isPresent();
 
 //            String userImageUrl = userDetails.getUser().getUserImage().getImageUrl();
             String userImageUrl = post.getPostImage().getPostImageUrl(); // 테스트용
-            String userName = userDetails.getUser().getUserName();
+            String userName = post.getUser().getUserName();
             PostListDto result = new PostListDto(postId,content,likeCnt,commentCnt,createAt,userImageUrl,postImageUrl,userName,userId,like);
             postListDto.add(result);
         }
@@ -95,7 +95,7 @@ public class PostService {
 
 
     public MsgResponseDto deletePost(Long postid) {
-        postRepository.deleteAllByPostId(postid);
+        postRepository.deleteById(postid);
         return new MsgResponseDto("게시글 삭제가 완료되었습니다");
     }
 }

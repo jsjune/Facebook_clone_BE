@@ -1,7 +1,10 @@
 package com.best2team.facebook_clone_be.dto;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class PostListDto {
     private Long postId;
     private String content;

@@ -25,8 +25,8 @@ public class PostController {
     }
 
     @GetMapping("/api/post/{postno}")
-    public PostResponseDto showAllPost(@PathVariable("postno") int postno, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.showAllPost(postno, userDetails);
+    public PostResponseDto showAllPost(@PathVariable("postno") int postno) {
+        return postService.showAllPost(postno);
     }
 
 //    @PutMapping("/api/post/{postid}")
