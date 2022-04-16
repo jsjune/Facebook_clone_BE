@@ -1,13 +1,11 @@
 package com.best2team.facebook_clone_be.service;
 
 
-import com.best2team.facebook_clone_be.dto.CommentListDto;
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
 import com.best2team.facebook_clone_be.dto.CommentResponseDto;
 import com.best2team.facebook_clone_be.dto.MsgResponseDto;
 import com.best2team.facebook_clone_be.model.Comment;
 import com.best2team.facebook_clone_be.model.Post;
-import com.best2team.facebook_clone_be.model.User;
 import com.best2team.facebook_clone_be.repository.CommentRepository;
 import com.best2team.facebook_clone_be.repository.PostRepository;
 import com.best2team.facebook_clone_be.repository.UserRepository;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

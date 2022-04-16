@@ -4,7 +4,6 @@ package com.best2team.facebook_clone_be.utils;
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
 import com.best2team.facebook_clone_be.dto.PostListDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
-import com.best2team.facebook_clone_be.model.Comment;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,7 +51,7 @@ public class Validator {
         return pages;
     }
 
-    public void emptyComment(CommentRequestDto commentRequestDto) {
+    public static void emptyComment(CommentRequestDto commentRequestDto) {
         if(commentRequestDto.getComment() == null) {
             throw new IllegalArgumentException("댓글을 입력하세요");
         }
