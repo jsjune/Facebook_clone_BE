@@ -95,7 +95,6 @@ public class PostService {
         }
     }
 
-
     public MsgResponseDto deletePost(Long postid) {
         postRepository.deleteAllByPostId(postid);
         return new MsgResponseDto("게시글 삭제가 완료되었습니다");
