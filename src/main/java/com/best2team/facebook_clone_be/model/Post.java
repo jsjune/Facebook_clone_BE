@@ -1,11 +1,8 @@
 package com.best2team.facebook_clone_be.model;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
