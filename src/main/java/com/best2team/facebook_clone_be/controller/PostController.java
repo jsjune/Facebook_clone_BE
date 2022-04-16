@@ -29,8 +29,6 @@ public class PostController {
         return postService.showAllPost(postno);
     }
 
-//    @PutMapping("/api/post/{postid}")
-//    public
 
     @DeleteMapping("/api/post/{postid}")
     public MsgResponseDto deletePost(@PathVariable("postid") Long postid) {

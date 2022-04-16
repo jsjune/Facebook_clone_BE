@@ -4,6 +4,8 @@ import com.best2team.facebook_clone_be.utils.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
