@@ -24,9 +24,9 @@ public class PostController {
         return postService.writePost(userDetails, multipartFile, content);
     }
 
-    @GetMapping("/api/post/{postno}")
-    public PostResponseDto showAllPost(@PathVariable("postno") int postno) {
-        return postService.showAllPost(postno);
+    @GetMapping("/api/post/{pageno}")
+    public PostResponseDto showAllPost(@PathVariable("pageno") int pageno, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return new PostResponseDto(postService.showAllPost(pageno-1, userDetails));
     }
 
 

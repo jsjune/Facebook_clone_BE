@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final Validator validator;
     
     //댓글 작성
     @Transactional
@@ -37,7 +37,7 @@ public class CommentService {
         Post post = postRepository.findById(requestDto.getPostId()).orElseThrow(IllegalArgumentException::new);
 
         try {
-            Validator.emptyComment(requestDto);
+            validator.emptyComment(requestDto);
         } catch (IllegalArgumentException e) {
             msg = e.getMessage();
             return new MsgResponseDto(msg);
@@ -83,7 +83,7 @@ public class CommentService {
             throw new IllegalArgumentException("댓글 삭제가 실패하였습니다.");
         }
 
-        commentRepository.delete(comment);
+        commentRepository.deleteById(commentid);
         return new MsgResponseDto(msg);
     }
 
@@ -96,8 +96,8 @@ public class CommentService {
         List<CommentResponseDto> commentPageList = new ArrayList<>();
         forboardList(commentList, commentPageList);
 
-        int start = pageno * 10;
-        int end = Math.min((start + 10),commentList.size());
+        int start = pageno * 5;
+        int end = Math.min((start + 5),commentList.size());
 
         Page<CommentResponseDto> page = new PageImpl<>(commentPageList.subList(start, end), pageable, commentPageList.size());
         return page;
@@ -106,14 +106,14 @@ public class CommentService {
     private Pageable getPageable(int page) {
         Sort.Direction direction = Sort.Direction.DESC ;
         Sort sort = Sort.by(direction, "id");
-        return PageRequest.of(page, 16,sort);
+        return PageRequest.of(page, 5,sort);
     }
 
     //보드리스트 만들기
     private void forboardList(List<Comment> boardList, List<CommentResponseDto> commentPageList) {
         for (Comment comment : boardList) {
 
-            CommentResponseDto boardResponseDto = new CommentResponseDto(comment.getPost().getPostId(), comment.getContent(),
+            CommentResponseDto boardResponseDto = new CommentResponseDto(comment.getCommentId(), comment.getPost().getPostId(), comment.getContent(),
                     userRepository.findById(comment.getUserId()).orElseThrow(IllegalArgumentException::new).getUserName(),
                     comment.getUserId(), comment.getCreatedAt());
             commentPageList.add(boardResponseDto);

@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -34,8 +33,8 @@ public class Validator {
             throw new IllegalArgumentException("이메일 형식의 ID를 입력 해주세요.");
         }
 
-        if(signupRequestDto.getPassword().length()<4){
-            throw new IllegalArgumentException("비밀번호는 최소 4자 이상이여야 합니다.");
+        if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{4,16}$",signupRequestDto.getPassword())){
+            throw new IllegalArgumentException("비밀번호는 영문자와 숫자를 포함해야합니다.");
         }
 
         if(signupRequestDto.getPassword().contains(signupRequestDto.getUserEmail())){

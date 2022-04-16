@@ -36,7 +36,7 @@ public class CommentController {
     //댓글 리스트 조회
     @GetMapping("/api/comment/{postid}/{pageno}")
     public CommentListDto getCommentList(@PathVariable Long postid,@PathVariable int pageno){
-        return new CommentListDto(commentService.getCommentList(postid, pageno));
+        return new CommentListDto(commentService.getCommentList(postid, pageno-1));
     }
 
 

@@ -12,6 +12,7 @@ import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.utils.S3.S3Uploader;
 import com.best2team.facebook_clone_be.utils.Validator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -53,61 +54,50 @@ public class PostService {
     }
 
 
-    public PostResponseDto showAllPost(int postno) {
+    public Page<PostListDto> showAllPost(int pageno, UserDetailsImpl userDetails) {
         List<Post> postList = postRepository.findAll();
+        Pageable pageable = getPageable(pageno);
         List<PostListDto> postListDto = new ArrayList<>();
-        for (Post post : postList) {
-            Long userId = post.getUser().getUserId();
-            Long postId = post.getPostId();
-            String content = post.getContent();
-            Long likeCnt = likeRepository.countAllByPostId(postId);
-            List<Comment> commentList = commentRepository.findAllByPost(post);
-            Long commentCnt = Long.valueOf(commentList.size());
-            LocalDateTime createAt = post.getCreatedAt();
-            String postImageUrl = post.getPostImage().getPostImageUrl();
-            boolean like= likeRepository.findByPostIdAndUserId(post.getPostId(),post.getUser().getUserId()).isPresent();
+        forpostList(postList, postListDto, userDetails);
 
-//            String userImageUrl = userDetails.getUser().getUserImage().getImageUrl();
-            String userImageUrl = post.getPostImage().getPostImageUrl(); // 테스트용
-            String userName = post.getUser().getUserName();
-            PostListDto result = new PostListDto(postId,content,likeCnt,commentCnt,createAt,userImageUrl,postImageUrl,userName,userId,like);
-            postListDto.add(result);
-        }
-        Pageable pageable = getPageable(postno);
-        int start = postno * 10;
-        int end = Math.min((start + 10), postListDto.size());
+        int start = pageno * 7;
+        int end = Math.min((start + 7), postList.size());
 
-
-        int totalPage;
-        if (postListDto.size() % 10 == 0) {
-            totalPage = postListDto.size() / 10;
-        } else {
-            totalPage = postListDto.size() / 10+1;
-        }
-        return new PostResponseDto(postListDto, totalPage);
+        return validator.overPages(postListDto, start, end, pageable, pageno);
     }
 
     private Pageable getPageable(int page) {
-        Sort.Direction direction = Sort.Direction.DESC ;
+        Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "id");
-        return PageRequest.of(page, 10,sort);
+        return PageRequest.of(page, 7, sort);
     }
 
+    private void forpostList(List<Post> postList, List<PostListDto> postListDto, UserDetailsImpl userDetails) {
+        for (Post post : postList) {
+            int like = likeRepository.countAllByPostId(post.getPostId());
+
+            String userImageUrl = "없음";
+            String postImageUrl = "없음";
+
+            if (post.getPostImage().getPostImageUrl() != null){
+                postImageUrl = post.getPostImage().getPostImageUrl();
+            }
+            if (post.getUser().getUserImage() != null){
+                userImageUrl = post.getUser().getUserImage().getImageUrl();
+            };
+
+            PostListDto postDto = new PostListDto(post.getPostId(), post.getContent(), like, commentRepository.countAllByPost(post),
+                    post.getCreatedAt(), userImageUrl, imageRepository.findById(post.getPostId()).orElseThrow(IllegalArgumentException::new).getPostImageId(),
+                    postImageUrl, post.getUser().getUserName(), post.getUser().getUserId(),
+                    likeRepository.findByPostIdAndUserId(post.getPostId(), userDetails.getUser().getUserId()).isPresent());
+
+            postListDto.add(postDto);
+        }
+    }
 
     public MsgResponseDto deletePost(Long postid) {
-        postRepository.deleteById(postid);
+        postRepository.deleteAllByPostId(postid);
         return new MsgResponseDto("게시글 삭제가 완료되었습니다");
     }
-
-
-
-    //게시글 삭제
-//    public String deleteBoard(Long id){
-//        imageService.deleteFile(imageRepository.findByBoardId(id).getId());
-//        validator.sameContent(boardRepository.countAllById(id) == 0, "이미 없는 게시물입니다");
-//        boardRepository.deleteById(id);
-//        favoriteRepository.deleteAllByBoardId(id);
-//        commentRepository.deleteAllByBoardId(id);
-//        return "삭제 완료하였습니다";
-//    }
 }
+
