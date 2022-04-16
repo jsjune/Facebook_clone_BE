@@ -1,7 +1,7 @@
 package com.best2team.facebook_clone_be.service;
 
 import com.best2team.facebook_clone_be.dto.MsgResponseDto;
-import com.best2team.facebook_clone_be.dto.PostDto;
+import com.best2team.facebook_clone_be.dto.PostListDto;
 import com.best2team.facebook_clone_be.dto.PostResponseDto;
 import com.best2team.facebook_clone_be.model.Comment;
 import com.best2team.facebook_clone_be.model.Post;
@@ -12,7 +12,6 @@ import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.utils.S3.S3Uploader;
 import com.best2team.facebook_clone_be.utils.Validator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -56,7 +55,7 @@ public class PostService {
 
     public PostResponseDto showAllPost(int postno,UserDetailsImpl userDetails) {
         List<Post> postList = postRepository.findAllByUser(userDetails.getUser());
-        List<PostDto> postDtoList = new ArrayList<>();
+        List<PostListDto> postListDto = new ArrayList<>();
         for (Post post : postList) {
             Long userId = userDetails.getUser().getUserId();
             Long postId = post.getPostId();
@@ -71,16 +70,27 @@ public class PostService {
 //            String userImageUrl = userDetails.getUser().getUserImage().getImageUrl();
             String userImageUrl = post.getPostImage().getPostImageUrl(); // 테스트용
             String userName = userDetails.getUser().getUserName();
-            PostDto postDto = new PostDto(postId,content,likeCnt,commentCnt,createAt,userImageUrl,postImageUrl,userName,userId,like);
-            postDtoList.add(postDto);
+            PostListDto result = new PostListDto(postId,content,likeCnt,commentCnt,createAt,userImageUrl,postImageUrl,userName,userId,like);
+            postListDto.add(result);
         }
+        Pageable pageable = getPageable(postno);
+        int start = postno * 10;
+        int end = Math.min((start + 10), postListDto.size());
+
+
         int totalPage;
-        if (postDtoList.size() % 10 == 0) {
-            totalPage = postDtoList.size() / 10;
+        if (postListDto.size() % 10 == 0) {
+            totalPage = postListDto.size() / 10;
         } else {
-            totalPage = postDtoList.size() / 10+1;
+            totalPage = postListDto.size() / 10+1;
         }
-        return new PostResponseDto(postDtoList, totalPage);
+        return new PostResponseDto(postListDto, totalPage);
+    }
+
+    private Pageable getPageable(int page) {
+        Sort.Direction direction = Sort.Direction.DESC ;
+        Sort sort = Sort.by(direction, "id");
+        return PageRequest.of(page, 10,sort);
     }
 
 

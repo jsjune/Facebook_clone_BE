@@ -2,8 +2,7 @@ package com.best2team.facebook_clone_be.utils;
 
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
-import com.best2team.facebook_clone_be.dto.PostDto;
-import com.best2team.facebook_clone_be.dto.PostResponseDto;
+import com.best2team.facebook_clone_be.dto.PostListDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +42,8 @@ public class Validator {
         }
     }
 
-    public Page<PostDto> overPages(List<PostDto> boardsList, int start, int end, Pageable pageable, int page) {
-        Page<PostDto> pages = new PageImpl<>(boardsList.subList(start, end), pageable, boardsList.size());
+    public Page<PostListDto> overPages(List<PostListDto> boardsList, int start, int end, Pageable pageable, int page) {
+        Page<PostListDto> pages = new PageImpl<>(boardsList.subList(start, end), pageable, boardsList.size());
         if(page > pages.getTotalPages()){
             throw new IllegalArgumentException("요청할 수 없는 페이지 입니다.");
         }

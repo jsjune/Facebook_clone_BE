@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 public class PostController {
@@ -26,12 +25,12 @@ public class PostController {
     }
 
     @GetMapping("/api/post/{postno}")
-    public void showAllPost(@PathVariable("postno") int postno, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        postService.showAllPost(postno, userDetails);
+    public PostResponseDto showAllPost(@PathVariable("postno") int postno, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.showAllPost(postno, userDetails);
     }
 
-    @PutMapping("/api/post/{postid}")
-    public
+//    @PutMapping("/api/post/{postid}")
+//    public
 
     @DeleteMapping("/api/post/{postid}")
     public MsgResponseDto deletePost(@PathVariable("postid") Long postid) {

@@ -6,10 +6,10 @@ import java.util.List;
 
 @Getter
 public class PostResponseDto {
-    private List<PostDto> postList;
+    private List<PostListDto> postList;
     private int totalPage;
 
-    public PostResponseDto(List<PostDto> postDtoList, int i) {
+    public PostResponseDto(List<PostListDto> postDtoList, int i) {
         this.postList=postDtoList;
         this.totalPage= i;
     }
