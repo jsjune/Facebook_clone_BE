@@ -12,10 +12,6 @@ import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.utils.S3.S3Uploader;
 import com.best2team.facebook_clone_be.utils.Validator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,4 +84,15 @@ public class PostService {
         postRepository.deleteAllByPostId(postid);
         return new MsgResponseDto("게시글 삭제가 완료되었습니다");
     }
+
+
+    //게시글 삭제
+//    public String deleteBoard(Long id){
+//        imageService.deleteFile(imageRepository.findByBoardId(id).getId());
+//        validator.sameContent(boardRepository.countAllById(id) == 0, "이미 없는 게시물입니다");
+//        boardRepository.deleteById(id);
+//        favoriteRepository.deleteAllByBoardId(id);
+//        commentRepository.deleteAllByBoardId(id);
+//        return "삭제 완료하였습니다";
+//    }
 }

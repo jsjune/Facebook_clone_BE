@@ -1,18 +1,11 @@
 package com.best2team.facebook_clone_be.utils;
 
 
-import com.best2team.facebook_clone_be.dto.CommentRequestDto;
-import com.best2team.facebook_clone_be.dto.PostDto;
-import com.best2team.facebook_clone_be.dto.PostResponseDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
@@ -70,10 +63,12 @@ public class Validator {
         }
     }
 
-//    public void sameComment(CommentRequestDto commentRequestDto, Comment comment) {
-//        if(comment.getComment().equals(commentRequestDto.getComment())){
-//            throw new IllegalArgumentException("수정된 내용이 없습니다.");
-//        }
-//    }
+    public static void sameComment(CommentRequestDto requestDto) throws IllegalArgumentException {
+        if(requestDto.getComment() == null){
+            throw new IllegalArgumentException("수정된 내용이 없습니다.");
+        }
+    }
+
+
 
 }

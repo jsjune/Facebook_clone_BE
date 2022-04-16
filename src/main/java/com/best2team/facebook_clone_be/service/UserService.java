@@ -2,11 +2,9 @@ package com.best2team.facebook_clone_be.service;
 
 
 import com.best2team.facebook_clone_be.dto.ImageDto;
-import com.best2team.facebook_clone_be.dto.MsgResponseDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.model.User;
 import com.best2team.facebook_clone_be.model.UserImage;
-import com.best2team.facebook_clone_be.repository.UserImageRepository;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.utils.S3.S3Uploader;
@@ -24,15 +22,13 @@ public class UserService {
     private final Validator validator;
     private final PasswordEncoder encoder;
     private final S3Uploader s3Uploader;
-    private final UserImageRepository imageRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, Validator validator, PasswordEncoder encoder, S3Uploader s3Uploader, UserImageRepository imageRepository){
+    public UserService(UserRepository userRepository, Validator validator, PasswordEncoder encoder, S3Uploader s3Uploader){
         this.userRepository = userRepository;
         this.validator = validator;
         this.encoder = encoder;
         this.s3Uploader = s3Uploader;
-        this.imageRepository = imageRepository;
     }
 
     // 회원가입
@@ -53,12 +49,10 @@ public class UserService {
         return msg;
     }
 
-    public MsgResponseDto registImage(MultipartFile file, UserDetailsImpl userDetails) throws IOException {
+    public void registImage(MultipartFile file, UserDetailsImpl userDetails) throws IOException {
         Long userId = userDetails.getUser().getUserId();
         User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
         UserImage userImage = new UserImage(s3Uploader.upload(file, "static"));
-        user.update(imageRepository.save(userImage));
-
-        return new MsgResponseDto("사진 등록이 완료되었습니다.");
+        user.update(userImage);
     }
 }
