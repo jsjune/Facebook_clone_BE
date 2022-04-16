@@ -1,9 +1,12 @@
 package com.best2team.facebook_clone_be.utils;
 
 
+import com.best2team.facebook_clone_be.dto.CommentRequestDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
+import com.best2team.facebook_clone_be.model.Comment;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
@@ -11,6 +14,7 @@ import java.util.regex.Pattern;
 @Component
 public class Validator {
     private final UserRepository userRepository;
+
 
     @Autowired
     public Validator(UserRepository userRepository){
@@ -36,19 +40,13 @@ public class Validator {
         }
     }
 //
-//    public Page<BoardResponseDto> overPages(List<BoardResponseDto> boardsList, int start, int end, Pageable pageable, int page) {
-//        Page<BoardResponseDto> pages = new PageImpl<>(boardsList.subList(start, end), pageable, boardsList.size());
-//        if(page > pages.getTotalPages()){
-//            throw new IllegalArgumentException("요청할 수 없는 페이지 입니다.");
-//        }
-//        return pages;
-//    }
 
-//    public void emptyComment(CommentRequestDto commentRequestDto) {
-//        if(commentRequestDto.getComment() == null) {
-//            throw new IllegalArgumentException("댓글을 입력하세요");
-//        }
-//    }
+
+    public static void emptyComment(CommentRequestDto requestDto) throws IllegalArgumentException {
+        if(requestDto.getComment() == null) {
+            throw new IllegalArgumentException("댓글을 입력하세요");
+        }
+    }
 
 //    public void alreadyDelete(boolean favorite, String s) {
 //        if(favorite){
@@ -62,12 +60,12 @@ public class Validator {
             throw new IllegalArgumentException(s);
         }
     }
-//
-//    public void sameComment(CommentRequestDto commentRequestDto, Comment comment) {
-//        if(comment.getComment().equals(commentRequestDto.getComment())){
-//            throw new IllegalArgumentException("수정된 내용이 없습니다.");
-//        }
-//    }
+
+    public static void sameComment(CommentRequestDto requestDto) throws IllegalArgumentException {
+        if(requestDto.getComment() == null){
+            throw new IllegalArgumentException("수정된 내용이 없습니다.");
+        }
+    }
 
 
 
