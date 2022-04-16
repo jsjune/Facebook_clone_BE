@@ -1,6 +1,6 @@
 package com.best2team.facebook_clone_be.model;
 
-
+import com.best2team.facebook_clone_be.utils.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "tbl_post")
-public class Post {
+public class Post extends Timestamped {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
     private Long postId;
@@ -20,22 +20,17 @@ public class Post {
     @JoinColumn(name = "postImageId")
     private PostImage postImage;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "commentId")
-    private List<Comment> commentList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "likeId")
-    private List<Like> likeList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
 
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false, unique = true)
-    private Long userId;
-
-    public Post(String content, Long userId) {
+    public Post(String content, User user, PostImage postImage) {
         this.content=content;
-        this.userId=userId;
+        this.user = user;
+        this.postImage = postImage;
     }
+
 }

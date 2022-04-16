@@ -25,4 +25,6 @@ public class FacebookCloneBeApplication {
                 .properties(APPLICATION_LOCATIONS)
                 .run(args);
     }
+
 }
+

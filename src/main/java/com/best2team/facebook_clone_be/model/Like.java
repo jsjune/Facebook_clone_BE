@@ -19,4 +19,7 @@ public class Like {
     @Column
     private Long userId;
 
+    @Column
+    private Long postId;
+
 }

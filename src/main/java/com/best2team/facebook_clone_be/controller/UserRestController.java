@@ -23,6 +23,8 @@ public class UserRestController {
     // 회원가입
     @PostMapping("/user/signup")
     public String signup(@RequestBody SignupRequestDto signupRequestDto){
+        System.out.println(signupRequestDto);
+
         return userService.signup(signupRequestDto);
     }
 

@@ -1,11 +1,13 @@
 package com.best2team.facebook_clone_be.security;
 
 import com.best2team.facebook_clone_be.model.User;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@ToString
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
