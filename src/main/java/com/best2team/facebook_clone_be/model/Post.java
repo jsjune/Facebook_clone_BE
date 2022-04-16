@@ -20,7 +20,7 @@ public class Post extends Timestamped {
     @JoinColumn(name = "postImageId")
     private PostImage postImage;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 

@@ -22,7 +22,7 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private Long userId;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "postId")
     private Post post;
 
