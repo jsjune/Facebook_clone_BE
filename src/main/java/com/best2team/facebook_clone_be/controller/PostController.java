@@ -22,12 +22,9 @@ public class PostController {
     public MsgResponseDto writePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam("image") MultipartFile multipartFile,  @RequestParam("content") String content) throws IOException {
         System.out.println(userDetails);
         System.out.println(content);
+
         return postService.writePost(userDetails, multipartFile, content);
     }
 
-//    @GetMapping("/api/post/{page}")
-//    public PostResponseDto postList(@PathVariable int page) {
-//
-//    }
 
 }

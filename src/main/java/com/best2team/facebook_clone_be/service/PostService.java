@@ -46,4 +46,22 @@ public class PostService {
 
 
     }
+
+    public MsgResponseDto deletePost(Long postid) {
+        String msg = "게시글 삭제가 완료되었습니다";
+
+
+
+        return new MsgResponseDto(msg);
+    }
+
+    //게시글 삭제
+//    public String deleteBoard(Long id){
+//        imageService.deleteFile(imageRepository.findByBoardId(id).getId());
+//        validator.sameContent(boardRepository.countAllById(id) == 0, "이미 없는 게시물입니다");
+//        boardRepository.deleteById(id);
+//        favoriteRepository.deleteAllByBoardId(id);
+//        commentRepository.deleteAllByBoardId(id);
+//        return "삭제 완료하였습니다";
+//    }
 }
