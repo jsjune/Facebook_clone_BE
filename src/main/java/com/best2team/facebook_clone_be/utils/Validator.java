@@ -33,7 +33,7 @@ public class Validator {
             throw new IllegalArgumentException("이메일 형식의 ID를 입력 해주세요.");
         }
 
-        if(!Pattern.matches("/((?=.*[0-9])(?=.*[a-zA-Z])).{4,16}$/",signupRequestDto.getPassword())){
+        if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{4,16}$",signupRequestDto.getPassword())){
             throw new IllegalArgumentException("비밀번호는 영문자와 숫자를 포함해야합니다.");
         }
 
