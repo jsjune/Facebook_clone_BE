@@ -18,7 +18,6 @@ import java.util.List;
 @RestController
 public class CommentController {
 
-
     private final CommentService commentService;
 
     //댓글 등록
