@@ -1,6 +1,7 @@
 package com.best2team.facebook_clone_be.model;
 
 
+import com.best2team.facebook_clone_be.utils.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "tbl_post")
-public class Post {
+public class Post extends Timestamped {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
     private Long postId;
