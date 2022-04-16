@@ -19,8 +19,13 @@ public class UserResponseDto {
         this.userId = userDetails.getId();
         this.userEmail = userDetails.getUser().getUserEmail();
         this.userName = userDetails.getUser().getUserName();
-        this.userImage = userDetails.getUser().getUserImage().getImageUrl();
         this.isLogin = userDetails.getUser().isLogin();
+        try {
+            this.userImage = userDetails.getUser().getUserImage().getImageUrl();
+        }catch (NullPointerException e){
+            this.userImage = "없음";
+        }
+
     }
 
 }
