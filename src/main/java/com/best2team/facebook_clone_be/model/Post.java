@@ -3,6 +3,7 @@ package com.best2team.facebook_clone_be.model;
 import com.best2team.facebook_clone_be.utils.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Getter

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,6 @@ public class PostService {
         try {
             validator.sameContent(content == null, "내용을 입력하세요");
             User user = userRepository.findById(userDetails.getUser().getUserId()).orElse(null);
-
             PostImage postImage = new PostImage(s3Uploader.upload(multipartFile, "static"));
             Post post = new Post(content, user, imageRepository.save(postImage));
             postRepository.save(post);
