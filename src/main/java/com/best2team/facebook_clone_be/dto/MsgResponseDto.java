@@ -9,5 +9,6 @@ public class MsgResponseDto {
     private String msg;
 
     public MsgResponseDto(String msg) {
-        this.msg=msg;
+        this.msg = msg;
+    }
 }
