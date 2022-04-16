@@ -16,14 +16,14 @@ public class CommentResponseDto {
     private String content;
     private String userName;
     private Long userId;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
 
-    public CommentResponseDto(Long postId, String content, String userName, Long userId, LocalDateTime createAt) {
+    public CommentResponseDto(Long postId, String content, String userName, Long userId, LocalDateTime createdAt) {
         this.postId = postId;
         this.content = content;
         this.userName = userName;
         this.userId = userId;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 }

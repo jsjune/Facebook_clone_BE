@@ -4,6 +4,7 @@ package com.best2team.facebook_clone_be.utils;
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
 import com.best2team.facebook_clone_be.dto.PostListDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
+import com.best2team.facebook_clone_be.model.Comment;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 @Component
 public class Validator {
     private final UserRepository userRepository;
+
 
     @Autowired
     public Validator(UserRepository userRepository){
@@ -62,17 +64,16 @@ public class Validator {
         }
     }
 
-
     public void sameContent(boolean board, String s) {
         if(board){
             throw new IllegalArgumentException(s);
         }
     }
 
-//    public void sameComment(CommentRequestDto commentRequestDto, Comment comment) {
-//        if(comment.getComment().equals(commentRequestDto.getComment())){
-//            throw new IllegalArgumentException("수정된 내용이 없습니다.");
-//        }
-//    }
+    public static void sameComment(CommentRequestDto requestDto) throws IllegalArgumentException {
+        if(requestDto.getComment() == null){
+            throw new IllegalArgumentException("수정된 내용이 없습니다.");
+        }
+    }
 
 }
