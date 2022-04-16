@@ -1,5 +1,6 @@
 package com.best2team.facebook_clone_be.controller;
 
+import com.best2team.facebook_clone_be.dto.MsgResponseDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.dto.UserResponseDto;
 
@@ -28,14 +29,14 @@ public class UserRestController {
         return userService.signup(signupRequestDto);
     }
 
-    @PostMapping("/api/user/islogin")
+    @GetMapping("/api/user/islogin")
     public UserResponseDto isLogin(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return new UserResponseDto(userDetails);
     }
 
     @PostMapping("/api/user/image")
-    public void registImage(@RequestParam("image") MultipartFile file, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
-        userService.registImage(file, userDetails);
+    public MsgResponseDto registImage(@RequestParam("image") MultipartFile file, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+        return userService.registImage(file, userDetails);
     }
 
 
