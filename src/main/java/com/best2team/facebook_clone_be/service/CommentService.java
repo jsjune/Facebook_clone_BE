@@ -14,7 +14,7 @@ import com.best2team.facebook_clone_be.repository.UserRepository;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.utils.Validator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -90,46 +90,39 @@ public class CommentService {
         return new MsgResponseDto(msg);
     }
 
-//    @Transactional
-//    public List<CommentResponseDto> getCommentList(Long postid) {
-//        List<Comment> commentList = commentRepository.findAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
-//        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-//
-//        for(Comment comment:commentList){
-//            Long postId = comment.getPost().getPostId();
-//            String content = comment.getContent();
-//            User user = userRepository.findById(comment.getUserId()).orElseThrow(
-//                    ()->new IllegalArgumentException("유저가 존재 하지 않습니다!")
-//            );
-//            String userName = user.getUserName();
-//            Long userId = user.getUserId();
-//            LocalDateTime createdAt = comment.getCreatedAt();
-//            CommentResponseDto commentResponseDto = new CommentResponseDto(postId,content,userName,userId,createdAt);
-//            commentResponseDtoList.add(commentResponseDto);
-//        }
-//        return commentResponseDtoList;
-//    }
 
-//    @Transactional
-//    public Page<CommentListDto> getCommentList(Long postid) {
-//        List<Comment> commentList = commentRepository.findAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
-//        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-//
-//        for(Comment comment:commentList){
-//            Long postId = comment.getPost().getPostId();
-//            String content = comment.getContent();
-//            User user = userRepository.findById(comment.getUserId()).orElseThrow(
-//                    ()->new IllegalArgumentException("유저가 존재 하지 않습니다!")
-//            );
-//            String userName = user.getUserName();
-//            Long userId = user.getUserId();
-//            LocalDateTime createdAt = comment.getCreatedAt();
-//            CommentResponseDto commentResponseDto = new CommentResponseDto(postId,content,userName,userId,createdAt);
-//            commentResponseDtoList.add(commentResponseDto);
-//        }
-//        Long totalPage = 1L;
-//        return (Page<CommentListDto>) new CommentListDto(commentResponseDtoList,totalPage);
-//    }
+    public Page<CommentResponseDto> getCommentList(Long postid, int pageno) {
+
+        List<Comment> commentList= commentRepository.findAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
+        Pageable pageable = getPageable(pageno);
+
+        List<CommentResponseDto> commentPageList = new ArrayList<>();
+        forboardList(commentList, commentPageList);
+
+        int start = pageno * 10;
+        int end = Math.min((start + 10),commentList.size());
+
+        Page<CommentResponseDto> page = new PageImpl<>(commentPageList.subList(start, end), pageable, commentPageList.size());
+        return page;
+    }
+
+    private Pageable getPageable(int page) {
+        Sort.Direction direction = Sort.Direction.DESC ;
+        Sort sort = Sort.by(direction, "id");
+        return PageRequest.of(page, 16,sort);
+    }
+
+    //보드리스트 만들기
+    private void forboardList(List<Comment> boardList, List<CommentResponseDto> commentPageList) {
+        for (Comment comment : boardList) {
+
+            CommentResponseDto boardResponseDto = new CommentResponseDto(comment.getPost().getPostId(), comment.getContent(),
+                    userRepository.findById(comment.getUserId()).orElseThrow(IllegalArgumentException::new).getUserName(),
+                    comment.getUserId(), comment.getCreatedAt());
+            commentPageList.add(boardResponseDto);
+        }
+    }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String nullex(IllegalArgumentException e) {

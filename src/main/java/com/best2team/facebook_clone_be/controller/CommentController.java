@@ -35,21 +35,21 @@ public class CommentController {
 
 
     //댓글 리스트 조회
-    @GetMapping("/api/comment/{postid}")
-    public Page<CommentListDto> getCommentList(@PathVariable long postid){
-        return commentService.getCommentList(postid);
+    @GetMapping("/api/comment/{postid}/{pageno}")
+    public CommentListDto getCommentList(@PathVariable Long postid,@PathVariable int pageno){
+        return new CommentListDto(commentService.getCommentList(postid, pageno));
     }
 
 
     // 댓글 수정하기
     @PutMapping("/api/comment/{commentid}")
-    public MsgResponseDto updateComment(@PathVariable long commentid, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public MsgResponseDto updateComment(@PathVariable Long commentid, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.updateComment(commentid,requestDto,userDetails);
     }
 
     // 댓글 삭제하기
     @DeleteMapping("/api/comment/{commentid}")
-    public MsgResponseDto deleteComment(@PathVariable long commentid, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public MsgResponseDto deleteComment(@PathVariable Long commentid, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.deleteComment(commentid,userDetails);
     }
 }

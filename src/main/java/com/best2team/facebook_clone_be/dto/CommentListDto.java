@@ -3,6 +3,7 @@ package com.best2team.facebook_clone_be.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -11,10 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 public class CommentListDto {
     private List<CommentResponseDto> comments;
-    private Long totalPage;
+    private int totalPage;
 
-    public CommentListDto(List<CommentResponseDto> commentResponseDtoList, Long totalPage) {
-        this.comments = commentResponseDtoList;
-        this.totalPage = totalPage;
+    public CommentListDto(Page<CommentResponseDto> page) {
+        this.comments = page.getContent();
+        this.totalPage = page.getTotalPages();
     }
 }
