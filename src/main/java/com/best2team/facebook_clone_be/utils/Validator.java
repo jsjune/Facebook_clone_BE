@@ -2,13 +2,17 @@ package com.best2team.facebook_clone_be.utils;
 
 
 import com.best2team.facebook_clone_be.dto.CommentRequestDto;
+import com.best2team.facebook_clone_be.dto.PostListDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.model.Comment;
 import com.best2team.facebook_clone_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
@@ -39,22 +43,27 @@ public class Validator {
             throw new IllegalArgumentException("ID가 포함되지 않은 비밀번호를 사용해주세요.");
         }
     }
-//
 
+    public Page<PostListDto> overPages(List<PostListDto> boardsList, int start, int end, Pageable pageable, int page) {
+        Page<PostListDto> pages = new PageImpl<>(boardsList.subList(start, end), pageable, boardsList.size());
+        if(page > pages.getTotalPages()){
+            throw new IllegalArgumentException("요청할 수 없는 페이지 입니다.");
+        }
+        return pages;
+    }
 
-    public static void emptyComment(CommentRequestDto requestDto) throws IllegalArgumentException {
-        if(requestDto.getComment() == null) {
+    public void emptyComment(CommentRequestDto commentRequestDto) {
+        if(commentRequestDto.getComment() == null) {
             throw new IllegalArgumentException("댓글을 입력하세요");
         }
     }
 
-//    public void alreadyDelete(boolean favorite, String s) {
-//        if(favorite){
-//            throw new IllegalArgumentException(s);
-//        }
-//    }
-//
-//
+    public void alreadyDelete(boolean favorite, String s) {
+        if(favorite){
+            throw new IllegalArgumentException(s);
+        }
+    }
+
     public void sameContent(boolean board, String s) {
         if(board){
             throw new IllegalArgumentException(s);
@@ -66,7 +75,5 @@ public class Validator {
             throw new IllegalArgumentException("수정된 내용이 없습니다.");
         }
     }
-
-
 
 }
