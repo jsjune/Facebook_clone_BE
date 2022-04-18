@@ -1,9 +1,6 @@
 package com.best2team.facebook_clone_be.service;
 
-import com.best2team.facebook_clone_be.dto.MsgResponseDto;
-import com.best2team.facebook_clone_be.dto.PostListDto;
-import com.best2team.facebook_clone_be.dto.PostResponseDto;
-import com.best2team.facebook_clone_be.model.Comment;
+import com.best2team.facebook_clone_be.dto.*;
 import com.best2team.facebook_clone_be.model.Post;
 import com.best2team.facebook_clone_be.model.PostImage;
 import com.best2team.facebook_clone_be.model.User;
@@ -21,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +32,14 @@ public class PostService {
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
+    private final PostImageRepository postImageRepository;
 
     @Transactional
     public MsgResponseDto writePost(UserDetailsImpl userDetails, MultipartFile multipartFile, String content) throws IOException {
         try {
             validator.sameContent(content == null, "내용을 입력하세요");
             User user = userRepository.findById(userDetails.getUser().getUserId()).orElse(null);
+
             PostImage postImage = new PostImage(s3Uploader.upload(multipartFile, "static"));
             Post post = new Post(content, user, imageRepository.save(postImage));
             postRepository.save(post);
@@ -55,7 +53,7 @@ public class PostService {
 
 
     public Page<PostListDto> showAllPost(int pageno, UserDetailsImpl userDetails) {
-        List<Post> postList = postRepository.findAll();
+        List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
         Pageable pageable = getPageable(pageno);
         List<PostListDto> postListDto = new ArrayList<>();
         forpostList(postList, postListDto, userDetails);
@@ -95,8 +93,27 @@ public class PostService {
         }
     }
 
+
+    @Transactional
+    public PostEditResponseDto editPost(Long postid, MultipartFile multipartFile, String content) throws IOException {
+
+        Post post = postRepository.findById(postid).orElseThrow(IllegalArgumentException::new);
+
+        postImageRepository.deleteById(post.getPostImage().getPostImageId());
+        PostImage postImage = new PostImage(s3Uploader.upload(multipartFile, "static"));
+
+        post.update(content,postImage);
+        postImageRepository.save(postImage);
+        return new PostEditResponseDto(postid,content,postImage.getPostImageUrl());
+    }
+
+    @Transactional
     public MsgResponseDto deletePost(Long postid) {
-        postRepository.deleteAllByPostId(postid);
+        postImageRepository.deleteById(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
+        likeRepository.deleteAllByPostId(postid);
+//        s3Uploader.deleteFile(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
+        commentRepository.deleteAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
+        postRepository.deleteById(postid);
         return new MsgResponseDto("게시글 삭제가 완료되었습니다");
     }
 }
