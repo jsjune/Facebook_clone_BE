@@ -1,6 +1,7 @@
 package com.best2team.facebook_clone_be.model;
 
 
+import com.best2team.facebook_clone_be.dto.LikeDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,8 @@ public class Like {
     @Column
     private Long postId;
 
+    public Like(LikeDto likeDto){
+        this.postId = likeDto.getPostId();
+        this.userId = likeDto.getUserId();
+    }
 }
