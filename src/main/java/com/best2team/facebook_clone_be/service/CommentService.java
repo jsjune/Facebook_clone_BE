@@ -86,7 +86,7 @@ public class CommentService {
 
     public Page<CommentResponseDto> getCommentList(Long postid, int pageno) {
 
-        List<Comment> commentList= commentRepository.findAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
+        List<Comment> commentList= commentRepository.findAllByPostOrderByCreatedAtDesc(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
         Pageable pageable = getPageable(pageno);
 
         List<CommentResponseDto> commentPageList = new ArrayList<>();
