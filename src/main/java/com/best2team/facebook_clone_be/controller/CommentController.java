@@ -22,7 +22,7 @@ public class CommentController {
 
     //댓글 등록
     @PostMapping("/api/comment")
-    public MsgResponseDto createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public CommentResponseDto createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
        return commentService.createComment(requestDto,userDetails);
     }
     

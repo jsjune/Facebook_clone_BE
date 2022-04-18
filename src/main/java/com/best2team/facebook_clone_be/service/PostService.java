@@ -53,7 +53,7 @@ public class PostService {
 
 
     public Page<PostListDto> showAllPost(int pageno, UserDetailsImpl userDetails) {
-        List<Post> postList = postRepository.findAll();
+        List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
         Pageable pageable = getPageable(pageno);
         List<PostListDto> postListDto = new ArrayList<>();
         forpostList(postList, postListDto, userDetails);

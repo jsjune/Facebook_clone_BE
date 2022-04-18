@@ -12,5 +12,8 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     void deleteAllByPost(Post orElseThrow);
 
+    List<Comment> findAllByPostOrderByCreatedAtDesc(Post orElseThrow);
+
+
     //Page<Comment> findByUserIdOrderByCommentIdDesc(Long userId, Pageable pageable);
 }
