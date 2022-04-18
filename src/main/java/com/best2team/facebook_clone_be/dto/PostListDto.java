@@ -2,7 +2,6 @@ package com.best2team.facebook_clone_be.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter

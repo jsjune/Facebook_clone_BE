@@ -93,6 +93,7 @@ public class PostService {
         }
     }
 
+
     @Transactional
     public PostEditResponseDto editPost(Long postid, MultipartFile multipartFile, String content) throws IOException {
 
