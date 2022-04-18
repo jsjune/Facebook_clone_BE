@@ -21,7 +21,7 @@ public class PostListDto {
     private boolean like;
 
     public PostListDto(Long postId, String content, int likeCnt, int commentCnt, LocalDateTime createAt, String userImageUrl,
-                       Long postImageId, String postImageUrl, String userName, Long userId, boolean like) {
+                       String postImageUrl, String userName, Long userId, boolean like, Long postImageId) {
         this.postId = postId;
         this.content = content;
         this.likeCnt = likeCnt;
@@ -34,4 +34,5 @@ public class PostListDto {
         this.userId = userId;
         this.like = like;
     }
+
 }
