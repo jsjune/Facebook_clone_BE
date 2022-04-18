@@ -53,7 +53,7 @@ public class PostService {
 
 
     public Page<PostListDto> showAllPost(int pageno, UserDetailsImpl userDetails) {
-        List<Post> postList = postRepository.findAll();
+        List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
         Pageable pageable = getPageable(pageno);
         List<PostListDto> postListDto = new ArrayList<>();
         forpostList(postList, postListDto, userDetails);
@@ -92,6 +92,7 @@ public class PostService {
             postListDto.add(postDto);
         }
     }
+
 
     @Transactional
     public PostEditResponseDto editPost(Long postid, MultipartFile multipartFile, String content) throws IOException {
