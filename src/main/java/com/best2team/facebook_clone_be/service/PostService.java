@@ -114,13 +114,16 @@ public class PostService {
     }
 
     @Transactional
-    public MsgResponseDto deletePost(Long postid) {
-        postImageRepository.deleteById(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
-        likeRepository.deleteAllByPostId(postid);
-        System.out.println(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
-        commentRepository.deleteAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
-        postRepository.deleteById(postid);
-        return new MsgResponseDto("게시글 삭제가 완료되었습니다");
+    public void deletePost(Long postid) {
+        try{
+            postImageRepository.deleteById(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
+            likeRepository.deleteAllByPostId(postid);
+            System.out.println(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
+            commentRepository.deleteAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
+            postRepository.deleteById(postid);
+        }catch (IllegalArgumentException e){
+            throw new IllegalArgumentException("게시글 삭제 권한이 없습니다.");
+        }
     }
 
     //특정 유저로 게시글 조회 .

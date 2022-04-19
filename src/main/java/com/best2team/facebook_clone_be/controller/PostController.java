@@ -3,6 +3,8 @@ package com.best2team.facebook_clone_be.controller;
 import com.best2team.facebook_clone_be.dto.*;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.PostService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,8 +38,12 @@ public class PostController {
     }
 
     @DeleteMapping("/api/post/{postid}")
-    public MsgResponseDto deletePost(@PathVariable("postid") Long postid) {
-        return postService.deletePost(postid);
+    public ResponseEntity deletePost(@PathVariable("postid") Long postid) {
+        postService.deletePost(postid);
+        Message message = Message.builder()
+                .message1("게시글 삭제 성공!!")
+                .build();
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping("/api/post/{username}/{pageno}")
