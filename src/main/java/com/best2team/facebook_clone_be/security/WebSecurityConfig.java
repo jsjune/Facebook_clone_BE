@@ -58,7 +58,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
         web
                 .ignoring()
-                .antMatchers("/h2-console/**");
+                .antMatchers("/h2-console/**","/favicon.ico"
+                        ,"/error"
+                        ,"/swagger-ui/**"
+                        ,"/swagger-resources/**"
+                        ,"/v2/api-docs");
+
     }
 
     @Override
@@ -101,6 +106,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         FormLoginFilter formLoginFilter = new FormLoginFilter(authenticationManager());
         formLoginFilter.setFilterProcessesUrl("/user/login");
         formLoginFilter.setAuthenticationSuccessHandler(formLoginSuccessHandler());
+        formLoginFilter.setAuthenticationFailureHandler(authFailureHandler());
         formLoginFilter.afterPropertiesSet();
         return formLoginFilter;
     }
@@ -115,6 +121,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new FormLoginAuthProvider(encodePassword());
     }
 
+    @Bean
+    public AuthFailureHandler authFailureHandler() {
+        return new AuthFailureHandler();
+    }
 
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();

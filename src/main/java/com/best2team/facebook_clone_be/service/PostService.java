@@ -106,15 +106,10 @@ public class PostService {
 
     @Transactional
     public PostEditResponseDto editPost(Long postid, MultipartFile multipartFile, String content) throws IOException {
-
         Post post = postRepository.findById(postid).orElseThrow(IllegalArgumentException::new);
-
         PostImage postImage = new PostImage(s3Uploader.upload(multipartFile, "static"));
-
         postImageRepository.save(postImage);
         post.update(content,postImage);
-        System.out.println("333333333333");
-        System.out.println(post.getPostImage().getPostImageId());
         return new PostEditResponseDto(postid,content,postImage.getPostImageUrl());
     }
 
@@ -129,17 +124,17 @@ public class PostService {
     }
 
     //특정 유저로 게시글 조회 .
-    public Page<PostListDto> getMyPage(int i, String username,UserDetailsImpl userDetails) {
+    public Page<PostListDto> getMyPage(int pageno, String username,UserDetailsImpl userDetails) {
         //받아온 username 으로 이 유저가 작성한 게시물 리스트 반환.
         List<Post> postList = postRepository.findAllByUserOrderByCreatedAtDesc(userRepository.findByUserName(username).orElseThrow(IllegalArgumentException::new));
-        Pageable pageable = getPageable(i);
+        Pageable pageable = getPageable(pageno);
         List<PostListDto> postListDto = new ArrayList<>();
         forpostList(postList, postListDto, userDetails);
 
-        int start = i * 7;
+        int start = pageno * 7;
         int end = Math.min((start + 7), postList.size());
 
-        return validator.overPages(postListDto, start, end, pageable, i);
+        return validator.overPages(postListDto, start, end, pageable, pageno);
     }
 }
 

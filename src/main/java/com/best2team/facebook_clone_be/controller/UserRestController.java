@@ -1,8 +1,8 @@
 package com.best2team.facebook_clone_be.controller;
 
+import com.best2team.facebook_clone_be.dto.ProfileResponseDto;
 import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.dto.UserResponseDto;
-
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +34,9 @@ public class UserRestController {
     }
 
     @PostMapping("/api/user/image")
-    public void registImage(@RequestParam("image") MultipartFile file, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
-        userService.registImage(file, userDetails);
+    public ProfileResponseDto registImage(@RequestParam("image") MultipartFile file, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+        return userService.registImage(file, userDetails);
     }
-
 
     @ExceptionHandler(IllegalArgumentException.class)
     public Object nullex(IllegalArgumentException e) {
