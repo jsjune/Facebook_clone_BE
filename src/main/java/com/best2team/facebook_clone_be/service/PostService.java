@@ -53,9 +53,11 @@ public class PostService {
             userImageUrl = post.getUser().getUserImage().getImageUrl();
         };
 
+        int like = likeRepository.countAllByPostId(post.getPostId());
+
         Long postImageId = post.getPostImage().getPostImageId();
-        return new PostListDto(post.getPostId(),post.getContent(),likeRepository.countAllByPostId(post.getPostId()),
-                commentRepository.countAllByPost(post), post.getCreatedAt(),userImageUrl,postImageUrl,post.getUser().getUserName(),post.getUser().getUserId(),
+        return new PostListDto(post.getPostId(),post.getContent(),like,commentRepository.countAllByPost(post),
+                post.getCreatedAt(),userImageUrl,postImageUrl,post.getUser().getUserName(),post.getUser().getUserId(),
                 likeRepository.findByPostIdAndUserId(post.getPostId(), userDetails.getUser().getUserId()).isPresent(),postImageId);
     }
 
@@ -116,13 +118,12 @@ public class PostService {
     @Transactional
     public void deletePost(Long postid) {
         try{
-            postImageRepository.deleteById(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
+//            postImageRepository.deleteById(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
             likeRepository.deleteAllByPostId(postid);
-            System.out.println(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new).getPostImage().getPostImageId());
-            commentRepository.deleteAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
+//            commentRepository.deleteAllByPost(postRepository.findById(postid).orElseThrow(IllegalArgumentException::new));
             postRepository.deleteById(postid);
         }catch (IllegalArgumentException e){
-            throw new IllegalArgumentException("게시글 삭제 권한이 없습니다.");
+            throw new IllegalArgumentException("게시글 삭제 오류!!!");
         }
     }
 

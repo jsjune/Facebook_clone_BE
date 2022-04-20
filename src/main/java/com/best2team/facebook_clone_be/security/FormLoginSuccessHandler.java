@@ -20,7 +20,6 @@ public class FormLoginSuccessHandler extends SavedRequestAwareAuthenticationSucc
         final String token = JwtTokenUtils.generateJwtToken(userDetails);
         try {
             response.addHeader(AUTH_HEADER, TOKEN_TYPE + " " + token);
-            //response.getWriter().write("로그인이 완료되었습니다.");
             String data ="로그인이 완료되었습니다.";
             String msg = new String (objectMapper.writeValueAsString(data).getBytes("UTF-8"), "ISO-8859-1");
             response.getOutputStream()
