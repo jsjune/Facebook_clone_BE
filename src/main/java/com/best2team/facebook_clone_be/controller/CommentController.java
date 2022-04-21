@@ -1,16 +1,16 @@
 package com.best2team.facebook_clone_be.controller;
 
-import com.best2team.facebook_clone_be.dto.*;
+import com.best2team.facebook_clone_be.dto.CommentListDto;
+import com.best2team.facebook_clone_be.dto.CommentRequestDto;
+import com.best2team.facebook_clone_be.dto.CommentResponseDto;
+import com.best2team.facebook_clone_be.dto.Message;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RequiredArgsConstructor // final로 선언된 멤버 변수를 자동으로 생성합니다.

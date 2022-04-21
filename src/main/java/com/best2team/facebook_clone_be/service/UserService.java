@@ -12,6 +12,7 @@ import com.best2team.facebook_clone_be.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class UserService {
         return msg;
     }
 
+    @Transactional
     public ProfileResponseDto registImage(MultipartFile file, UserDetailsImpl userDetails) throws IOException {
         Long userId = userDetails.getUser().getUserId();
         User user = userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);

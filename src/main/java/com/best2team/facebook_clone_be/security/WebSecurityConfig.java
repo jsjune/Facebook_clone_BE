@@ -1,6 +1,5 @@
 package com.best2team.facebook_clone_be.security;
 
-
 import com.best2team.facebook_clone_be.security.filter.FormLoginFilter;
 import com.best2team.facebook_clone_be.security.filter.JwtAuthFilter;
 import com.best2team.facebook_clone_be.security.jwt.HeaderTokenExtractor;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
