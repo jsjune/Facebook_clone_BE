@@ -2,7 +2,7 @@ package com.best2team.facebook_clone_be.websocket;
 
 import com.best2team.facebook_clone_be.dto.ChatMessageDto;
 import com.best2team.facebook_clone_be.dto.ChatRoomDto;
-import com.best2team.facebook_clone_be.service.ChatService;
+import com.best2team.facebook_clone_be.service.ChatServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @Component
 public class WebSockChatHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
-    private final ChatService chatService;
+    private final ChatServiceImpl chatService;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {

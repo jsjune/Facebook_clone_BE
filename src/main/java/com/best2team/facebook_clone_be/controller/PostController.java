@@ -3,6 +3,8 @@ package com.best2team.facebook_clone_be.controller;
 import com.best2team.facebook_clone_be.dto.*;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.PostService;
+import com.best2team.facebook_clone_be.service.PostServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,15 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 public class PostController {
     private final PostService postService;
 
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
 
     @PostMapping("/api/post")
     public PostListDto writePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam("image") MultipartFile multipartFile, @RequestParam("content") String content) throws IOException {
@@ -38,7 +37,7 @@ public class PostController {
     }
 
     @DeleteMapping("/api/post/{postid}")
-    public ResponseEntity deletePost(@PathVariable("postid") Long postid) {
+    public ResponseEntity<?> deletePost(@PathVariable("postid") Long postid) {
         postService.deletePost(postid);
         Message message = Message.builder()
                 .message1("게시글 삭제 성공!!")

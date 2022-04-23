@@ -18,9 +18,9 @@ public class CommentResponseDto {
     private LocalDateTime createdAt;
 
 
-    public CommentResponseDto(Long commentId, Long postId, String content, String userName, Long userId, LocalDateTime createdAt) {
-        this.postId = postId;
+    public CommentResponseDto(Long postId,Long commentId, String content, String userName, Long userId, LocalDateTime createdAt) {
         this.commentId = commentId;
+        this.postId = postId;
         this.content = content;
         this.userName = userName;
         this.userId = userId;

@@ -1,6 +1,6 @@
 package com.best2team.facebook_clone_be.dto;
 
-import com.best2team.facebook_clone_be.service.ChatService;
+import com.best2team.facebook_clone_be.service.ChatServiceImpl;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.socket.WebSocketSession;
@@ -20,7 +20,7 @@ public class ChatRoomDto {
         this.name = name;
     }
 
-    public void handleActions(WebSocketSession session, ChatMessageDto chatMessage, ChatService chatService) {
+    public void handleActions(WebSocketSession session, ChatMessageDto chatMessage, ChatServiceImpl chatService) {
         if (chatMessage.getType().equals(ChatMessageDto.MessageType.ENTER)) {
             sessions.add(session);
             chatMessage.setMessage(chatMessage.getSender() + "님이 입장했습니다.");
@@ -28,7 +28,7 @@ public class ChatRoomDto {
         sendMessage(chatMessage, chatService);
     }
 
-    public <T> void sendMessage(T message, ChatService chatService) {
+    public <T> void sendMessage(T message, ChatServiceImpl chatService) {
         sessions.parallelStream().forEach(session -> chatService.sendMessage(session, message));
     }
 }

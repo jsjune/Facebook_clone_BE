@@ -15,7 +15,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ChatService {
+public class ChatServiceImpl {
 
     private final ObjectMapper objectMapper;
     private Map<String, ChatRoomDto> chatRooms;

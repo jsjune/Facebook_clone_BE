@@ -5,6 +5,8 @@ import com.best2team.facebook_clone_be.dto.SignupRequestDto;
 import com.best2team.facebook_clone_be.dto.UserResponseDto;
 import com.best2team.facebook_clone_be.security.UserDetailsImpl;
 import com.best2team.facebook_clone_be.service.UserService;
+import com.best2team.facebook_clone_be.service.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@RequiredArgsConstructor
 @RestController
 public class UserRestController {
     private final UserService userService;
-    @Autowired
-    public UserRestController(UserService userService){
-        this.userService = userService;
-    }
 
     // 회원가입
     @PostMapping("/user/signup")
